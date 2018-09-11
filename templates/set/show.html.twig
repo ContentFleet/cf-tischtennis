@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Set{% endblock %}
+
+{% block body %}
+    <h1>Set</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ set.id }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ set.createdAt ? set.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ set.updatedAt ? set.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('set_index') }}">back to list</a>
+
+    <a href="{{ path('set_edit', {'id': set.id}) }}">edit</a>
+
+    {{ include('set/_delete_form.html.twig') }}
+{% endblock %}

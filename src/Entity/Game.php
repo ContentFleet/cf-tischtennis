@@ -29,7 +29,7 @@ class Game
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Set", mappedBy="game", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\GameSet", mappedBy="game", orphanRemoval=true, cascade={"persist"})
      */
     private $sets;
 
@@ -42,6 +42,8 @@ class Game
     {
         $this->sets = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -74,14 +76,14 @@ class Game
     }
 
     /**
-     * @return Collection|Set[]
+     * @return Collection|GameSet[]
      */
     public function getSets(): Collection
     {
         return $this->sets;
     }
 
-    public function addSet(Set $set): self
+    public function addSet(GameSet $set): self
     {
         if (!$this->sets->contains($set)) {
             $this->sets[] = $set;
@@ -91,7 +93,7 @@ class Game
         return $this;
     }
 
-    public function removeSet(Set $set): self
+    public function removeSet(GameSet $set): self
     {
         if ($this->sets->contains($set)) {
             $this->sets->removeElement($set);
