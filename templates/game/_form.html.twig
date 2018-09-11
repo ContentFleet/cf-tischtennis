@@ -3,7 +3,9 @@
 <div class="opponents">
 {{ form_widget(form.users) }}
 <div>VS</div>
-<div class="game_current_user">{{ currentUser.displayName }}</div>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <div class="game_current_user">Username: {{ app.user.displayName }}</div>
+    {% endif %}
 </div>
 <ul class="sets" data-prototype="{{ form_widget(form.sets.vars.prototype)|e('html_attr') }}">
 </ul>

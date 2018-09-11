@@ -1,0 +1,24 @@
+<nav class="navbar bg-dark navbar-dark navbar-fixed-top">
+    <a class="navbar-brand" href="/">CF-Tischtennis</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <div class="container-fluid"
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('game_index') }}">Games</a>
+            </li>
+            {% if not is_granted('ROLE_USER') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('fos_user_security_login') }}">Login</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('fos_user_security_logout') }}">Logout</a>
+                </li>
+            {% endif %}
+        </ul>
+        </div>
+    </div>
+</nav>

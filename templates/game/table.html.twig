@@ -1,0 +1,45 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Sets</td>
+            <td>Opponent</td>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for game in games %}
+            <tr>
+                {% spaceless %}
+                    <td>
+                        {% for set in game.sets %}
+                            {{ set.score1 ~ ':' ~ set.score2 }}
+                        {% endfor %}
+                    </td>
+                {% endspaceless %}
+                {% spaceless %}
+                    <td>
+                        {% for user in game.users %}
+                            {{ user.getDisplayName() }}
+                            {% if(not loop.last) %}
+                                VS
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endspaceless %}
+                <td>
+                    <a href="{{ path('game_show', {'id': game.id}) }}" class="btn btn-primary" role="button">show</a>
+                </td>
+                <td>
+                    <a href="{{ path('game_edit', {'id': game.id}) }}" class="btn btn-info" role="button">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
