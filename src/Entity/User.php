@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -43,6 +45,17 @@ class User extends BaseUser
      */
     protected $compagny;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="users")
+     */
+    private $games;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->games = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,6 +93,34 @@ class User extends BaseUser
     public function setCompagny(?string $compagny): self
     {
         $this->Compagny = $compagny;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->contains($game)) {
+            $this->games->removeElement($game);
+            $game->removeUser($this);
+        }
 
         return $this;
     }
