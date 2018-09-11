@@ -33,6 +33,8 @@ class GameController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $currentUser = $this->getUser();
+            $game->addUser($currentUser);
             $em = $this->getDoctrine()->getManager();
             $em->persist($game);
             $em->flush();
@@ -40,9 +42,12 @@ class GameController extends AbstractController
             return $this->redirectToRoute('game_index');
         }
 
+        $currentUser = $this->getUser();
+
         return $this->render('game/new.html.twig', [
             'game' => $game,
             'form' => $form->createView(),
+            'currentUser' => $currentUser
         ]);
     }
 

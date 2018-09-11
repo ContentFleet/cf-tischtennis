@@ -19,26 +19,22 @@ var $collectionHolder;
 var $addSetButton = $('<button type="button" class="add_set_link">Add a set</button>');
 var $newLinkLi = $('<li></li>').append($addSetButton);
 
-jQuery(document).ready(function() {
-    // Get the ul that holds the collection of sets
+function addSetsToGame() {
     $collectionHolder = $('ul.sets');
-
-    // add the "add a set" anchor and li to the sets ul
     $collectionHolder.append($newLinkLi);
-
-    // count the current form inputs we have (e.g. 2), use that as the new
-    // index when inserting a new item (e.g. 2)
     $collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-
     addSetForm($collectionHolder, $newLinkLi);
     addSetForm($collectionHolder, $newLinkLi);
     addSetForm($collectionHolder, $newLinkLi);
 
-    $addSetButton.on('click', function(e) {
+    $addSetButton.on('click', function (e) {
         // add a new set form (see next code block)
         addSetForm($collectionHolder, $newLinkLi);
     });
+}
+jQuery(document).ready(function() {
+    addSetsToGame();
+    $('#game_users').removeAttr('multiple');
 });
 
 function addSetForm($collectionHolder, $newLinkLi) {

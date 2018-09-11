@@ -1,8 +1,11 @@
 {{ form_start(form) }}
 
-
+<div class="opponents">
+{{ form_widget(form.users) }}
+<div>VS</div>
+<div class="game_current_user">{{ currentUser.displayName }}</div>
+</div>
 <ul class="sets" data-prototype="{{ form_widget(form.sets.vars.prototype)|e('html_attr') }}">
 </ul>
-    {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

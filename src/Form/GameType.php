@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Game;
 use App\Entity\GameSet;
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,13 +18,18 @@ class GameType extends AbstractType
         $builder
             ->add('sets', CollectionType::class, [
                 'entry_type' => GameSetType::class,
-                'entry_options' => array('label' => false),
                 'allow_add'    => true,
                 'by_reference' => false,
-                'allow_delete' => true
+                'allow_delete' => true,
+                'label' => false
             ])
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('users', EntityType::class, array(
+                'class'    => User::class,
+                'choice_label' => 'displayName',
+                'label' => "Opponent",
+                'expanded' => false,
+                'multiple' => true
+            ));
         ;
     }
 

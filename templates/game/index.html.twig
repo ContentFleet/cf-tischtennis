@@ -9,8 +9,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
+                <td>Sets</td>
+                <td>Opponent</td>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,8 +18,23 @@
         {% for game in games %}
             <tr>
                 <td>{{ game.id }}</td>
-                <td>{{ game.createdAt ? game.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ game.updatedAt ? game.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                {% spaceless %}
+                    <td>
+                        {% for set in game.sets %}
+                            {{ set.score1 ~ ':' ~ set.score2 }}
+                        {% endfor %}
+                    </td>
+                {% endspaceless %}
+                {% spaceless %}
+                    <td>
+                        {% for user in game.users %}
+                            {{ user.getDisplayName() }}
+                            {% if(not loop.last) %}
+                                VS
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endspaceless %}
                 <td>
                     <a href="{{ path('game_show', {'id': game.id}) }}">show</a>
                     <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a>
