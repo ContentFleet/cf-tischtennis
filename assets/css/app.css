@@ -1,4 +1,5 @@
 body {
+    padding-top: 36px;
 }
 
 .container{
@@ -20,4 +21,8 @@ body {
     height: 300px;
     background: url("/images/tischtennis.jpg") no-repeat center center fixed;
     background-size: cover;
+}
+
+.row{
+    padding-bottom: 20px;
 }

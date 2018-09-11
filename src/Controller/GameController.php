@@ -20,7 +20,7 @@ class GameController extends AbstractController
      */
     public function index(GameRepository $gameRepository): Response
     {
-        return $this->render('game/index.html.twig', ['games' => $gameRepository->findAll()]);
+        return $this->render('game/index.html.twig', ['games' => $gameRepository->findBy(array(), array('id' => 'DESC'),100)]);
     }
 
     /**

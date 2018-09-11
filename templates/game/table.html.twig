@@ -4,8 +4,6 @@
         <tr>
             <td>Sets</td>
             <td>Opponent</td>
-            <th></th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -28,12 +26,6 @@
                         {% endfor %}
                     </td>
                 {% endspaceless %}
-                <td>
-                    <a href="{{ path('game_show', {'id': game.id}) }}" class="btn btn-primary" role="button">show</a>
-                </td>
-                <td>
-                    <a href="{{ path('game_edit', {'id': game.id}) }}" class="btn btn-info" role="button">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
