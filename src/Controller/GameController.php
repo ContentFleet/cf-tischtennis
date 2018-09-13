@@ -29,11 +29,17 @@ class GameController extends AbstractController
     public function new(Request $request): Response
     {
         $game = new Game();
-        $form = $this->createForm(GameType::class, $game);
+        $currentUser = $this->getUser();
+        $form = $this->createForm(
+            GameType::class,
+            $game,
+            [
+                'current_user_id' => $currentUser->getId()
+            ]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $currentUser = $this->getUser();
             $game->addUser($currentUser);
             $em = $this->getDoctrine()->getManager();
             $em->persist($game);

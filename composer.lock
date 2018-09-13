@@ -4,9 +4,42 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "81c8d6bab59756d62ed06ec09804867e",
-    "content-hash": "7ccdba7a2159621325976a9f5aea0da8",
+    "hash": "2bb1620bf7930c201963e27c95665ef9",
+    "content-hash": "1eba8e443be625c0d0effbbf3f3db16d",
     "packages": [
+        {
+            "name": "chovanec/elo-rating",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lambeletjp/elo-rating.git",
+                "reference": "0d603877836f77fa2d437a41eb61fbb3f513a83f"
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Chovanec\\Rating\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Michal Chovanec",
+                    "homepage": "http://michalchovanec.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP implementation of Elo rating system",
+            "homepage": "https://github.com/Chovanec/elo-rating",
+            "keywords": [
+                "elo",
+                "ranking",
+                "rating"
+            ],
+            "time": "2018-09-13 12:20:22"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.6.0",
@@ -5922,7 +5955,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "chovanec/elo-rating": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

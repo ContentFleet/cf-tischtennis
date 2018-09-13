@@ -2,6 +2,7 @@
     <table class="table">
         <thead>
         <tr>
+            <td>Id</td>
             <td>Sets</td>
             <td>Opponent</td>
         </tr>
@@ -9,6 +10,7 @@
         <tbody>
         {% for game in games %}
             <tr>
+                <td>{{ game.id }}</td>
                 {% spaceless %}
                     <td>
                         {% for set in game.sets %}
