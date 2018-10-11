@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -41,7 +42,8 @@ class GameType extends AbstractType
                         ->orderBy('u.firstname', 'ASC')
                         ->setParameter('current_user_id',$this->currentUserId);
                 },
-            ));
+            ))
+            ->add('save', SubmitType::class, ['label' => 'Report Game']);
         ;
     }
 

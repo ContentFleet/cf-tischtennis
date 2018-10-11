@@ -1,13 +1,28 @@
 {{ form_start(form) }}
 
-<div class="opponents">
-{{ form_widget(form.users) }}
-<div>VS</div>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-    <div class="game_current_user">Username: {{ app.user.displayName }}</div>
-    {% endif %}
+
+<div class="form-row">
+    <div class="form-group col-md-5">
+        {{ form_widget(form.users, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group col-md-2 text-center">
+        VS
+    </div>
+    <div class="form-group col-md-5">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="game_current_user">{{ app.user.displayName }}</div>
+        {% endif %}
+    </div>
 </div>
-<ul class="sets" data-prototype="{{ form_widget(form.sets.vars.prototype)|e('html_attr') }}">
-</ul>
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="form-row">
+    <ul class="sets" data-prototype="{{ form_widget(form.sets.vars.prototype)|e('html_attr') }}"></ul>
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-5">
+        {{ form_widget(form.save, {'attr' : {'class': 'btn btn-primary' }}) }}
+    </div>
+</div>
+
 {{ form_end(form) }}
