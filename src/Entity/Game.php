@@ -38,6 +38,11 @@ class Game
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $winner;
+
     public function __construct()
     {
         $this->sets = new ArrayCollection();
@@ -131,4 +136,22 @@ class Game
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getWinner()
+    {
+        return $this->winner;
+    }
+
+    /**
+     * @param mixed $winner
+     */
+    public function setWinner($winner)
+    {
+        $this->winner = $winner;
+    }
+
+
 }

@@ -8,6 +8,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,12 +29,13 @@ class GameType extends AbstractType
                 'allow_add'    => true,
                 'by_reference' => false,
                 'allow_delete' => true,
-                'label' => false
+                'label' => false,
+                'required' => true
             ])
             ->add('users', EntityType::class, array(
                 'class'    => User::class,
                 'choice_label' => 'displayName',
-                'label' => "Opponent",
+                'label' => false,
                 'expanded' => false,
                 'multiple' => true,
                 'query_builder' => function(EntityRepository $er) {
@@ -43,6 +45,20 @@ class GameType extends AbstractType
                         ->setParameter('current_user_id',$this->currentUserId);
                 },
             ))
+            ->add('winner',
+                ChoiceType::class,
+                [
+                'choices'  => [
+                            'Player1' => 1,
+                            'Player2' => 2
+                        ],
+                'placeholder' => false,
+                'expanded' => true,
+                'multiple' => false,
+                'required' => true,
+                'label' => false
+                ]
+            )
             ->add('save', SubmitType::class, ['label' => 'Report Game']);
         ;
     }
