@@ -3,18 +3,29 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav">
+    <div class="collapse navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="collapsibleNavbar">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('game_index') }}">Games</a>
             </li>
-            {% if not is_granted('ROLE_USER') %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('fos_user_security_login') }}">Login</a>
-                </li>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            </li>
             {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('fos_user_security_logout') }}">Logout</a>
+                    <span class="nav-link">{{ app.user.username }}</span>
                 </li>
             {% endif %}
         </ul>

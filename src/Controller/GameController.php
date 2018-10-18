@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\User;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +22,7 @@ class GameController extends AbstractController
      */
     public function index(GameRepository $gameRepository): Response
     {
-        return $this->render('game/index.html.twig', ['games' => $gameRepository->findBy(array(), array('id' => 'DESC'),100)]);
+        return $this->render('game/index.html.twig', ['games' => $gameRepository->findBy(array(), array('id' => 'DESC'), 100)]);
     }
 
     /**
@@ -28,6 +30,7 @@ class GameController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $em = $this->getDoctrine()->getManager();
         $game = new Game();
         $currentUser = $this->getUser();
         $form = $this->createForm(
@@ -43,10 +46,28 @@ class GameController extends AbstractController
             $game->addUser($currentUser);
 
             $players = $game->getUsers();
-            $winner = $game->getWinner()-1;
-            $winnerUser = $players->get($winner);
+            $winnerKey = $game->getWinner() - 1;
+            $winnerUser = null;
+            $looserUser = null;
+            foreach ($players as $key => $player) {
+                if ($key == $winnerKey) {
+                    $winnerUser = $player;
+                }
+
+                $looserUser = $player;
+            }
+            if ($looserUser && $winnerUser) {
+                /** @var UserRepository $userRepository */
+                $userRepository = $this->getDoctrine()->getRepository(User::class);
+                $eloScores = $userRepository->getUpdatedEloScore($winnerUser, $looserUser);
+                $winnerUser->setEloRating($eloScores['a'] ? $eloScores['a'] : 0);
+                $looserUser->setEloRating($eloScores['b'] ? $eloScores['b'] : 0);
+                $em->persist($winnerUser);
+                $em->persist($looserUser);
+            }
+
+
             $game->setWinnerUser($winnerUser);
-            $em = $this->getDoctrine()->getManager();
             $em->persist($game);
             $em->flush();
 
@@ -56,8 +77,8 @@ class GameController extends AbstractController
         $currentUser = $this->getUser();
 
         return $this->render('game/new.html.twig', [
-            'game' => $game,
-            'form' => $form->createView(),
+            'game'        => $game,
+            'form'        => $form->createView(),
             'currentUser' => $currentUser
         ]);
     }
@@ -95,7 +116,7 @@ class GameController extends AbstractController
      */
     public function delete(Request $request, Game $game): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$game->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $game->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($game);
             $em->flush();

@@ -55,6 +55,11 @@ class User extends BaseUser
      */
     private $wonGames;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $eloRating = 1000;
+
     public function __construct()
     {
         parent::__construct();
@@ -162,6 +167,18 @@ class User extends BaseUser
                 $wonGame->setWinnerUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEloRating(): ?int
+    {
+        return $this->eloRating;
+    }
+
+    public function setEloRating(int $eloRating): self
+    {
+        $this->eloRating = $eloRating;
 
         return $this;
     }
