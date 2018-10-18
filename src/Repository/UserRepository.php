@@ -24,7 +24,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function getUpdatedEloScore(User $winnerUser, User $looserUser)
     {
-        $rating = new Rating($winnerUser->getEloRating() , $looserUser->getEloRating(), 1, 0);
+        $rating = new Rating($winnerUser->getEloRating() , $looserUser->getEloRating(), Rating::WIN, Rating::LOST);
         $newRating = $rating->getNewRatings();
         return $newRating;
     }

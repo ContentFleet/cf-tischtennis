@@ -53,8 +53,9 @@ class GameController extends AbstractController
                 if ($key == $winnerKey) {
                     $winnerUser = $player;
                 }
-
-                $looserUser = $player;
+                else{
+                    $looserUser = $player;
+                }
             }
             if ($looserUser && $winnerUser) {
                 /** @var UserRepository $userRepository */

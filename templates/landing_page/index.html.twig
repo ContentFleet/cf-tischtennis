@@ -17,8 +17,17 @@
 
 <div class="row">
     <div class="col-lg-12 text-center">
-    {% include "/game/table.html.twig" %}
+    {% include "/user/table.html.twig" %}
     <a href="{{ path('game_new') }}" class="btn btn-info" role="button">Report a new game</a>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+        {% include "/game/table.html.twig" %}
+        <a href="{{ path('game_new') }}" class="btn btn-info" role="button">Report a new game</a>
     </div>
 </div>
 {% endblock %}

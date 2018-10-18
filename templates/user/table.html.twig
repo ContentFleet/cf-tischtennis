@@ -1,0 +1,26 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Position</td>
+            <td>Name</td>
+            <td>Elo Rating</td>
+            <td>Compagny</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pos,user in users %}
+            <tr>
+                <td>{{ pos+1 }}</td>
+                <td>{{ user.getDisplayName() }}</td>
+                <td>{{ user.getEloRating() }}</td>
+                <td>{{ user.getCompagny() }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
