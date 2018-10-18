@@ -50,10 +50,16 @@ class User extends BaseUser
      */
     private $games;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="winnerUser")
+     */
+    private $wonGames;
+
     public function __construct()
     {
         parent::__construct();
         $this->games = new ArrayCollection();
+        $this->wonGames = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,5 +133,36 @@ class User extends BaseUser
 
     public function getDisplayName(): string {
             return $this->getFirstname() . " " . $this->getLastName();
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getWonGames(): Collection
+    {
+        return $this->wonGames;
+    }
+
+    public function addWonGame(Game $wonGame): self
+    {
+        if (!$this->wonGames->contains($wonGame)) {
+            $this->wonGames[] = $wonGame;
+            $wonGame->setWinnerUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWonGame(Game $wonGame): self
+    {
+        if ($this->wonGames->contains($wonGame)) {
+            $this->wonGames->removeElement($wonGame);
+            // set the owning side to null (unless already changed)
+            if ($wonGame->getWinnerUser() === $this) {
+                $wonGame->setWinnerUser(null);
+            }
+        }
+
+        return $this;
     }
 }

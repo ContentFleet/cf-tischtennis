@@ -43,6 +43,12 @@ class Game
      */
     private $winner;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="wonGames")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $winnerUser;
+
     public function __construct()
     {
         $this->sets = new ArrayCollection();
@@ -151,6 +157,18 @@ class Game
     public function setWinner($winner)
     {
         $this->winner = $winner;
+    }
+
+    public function getWinnerUser(): ?User
+    {
+        return $this->winnerUser;
+    }
+
+    public function setWinnerUser(?User $winnerUser): self
+    {
+        $this->winnerUser = $winnerUser;
+
+        return $this;
     }
 
 

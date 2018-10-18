@@ -41,6 +41,11 @@ class GameController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $game->addUser($currentUser);
+
+            $players = $game->getUsers();
+            $winner = $game->getWinner()-1;
+            $winnerUser = $players->get($winner);
+            $game->setWinnerUser($winnerUser);
             $em = $this->getDoctrine()->getManager();
             $em->persist($game);
             $em->flush();
