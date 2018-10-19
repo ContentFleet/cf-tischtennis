@@ -58,7 +58,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="integer")
      */
-    private $eloRating = 1000;
+    private $eloRating = 1500;
 
     public function __construct()
     {
