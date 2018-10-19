@@ -21,8 +21,14 @@
                 {% spaceless %}
                     <td>
                         {% for user in game.users %}
+                            {% if user.id == game.winnerUser.id %}
+                                <b>
+                            {% endif %}
                             {{ user.getDisplayName() }}
                             ({{ user.eloRating() }})
+                            {% if user.id == game.winnerUser.id %}
+                                </b>
+                            {% endif %}
                             {% if(not loop.last) %}
                                 VS
                             {% endif %}
