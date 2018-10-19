@@ -6,6 +6,8 @@
 parameters:
     locale: 'en'
     mailer.user: tischtennis@contentfleet.com
+    slack.hook: '%env(string:SLACK_HOOK)%'
+
 
 services:
     # default configuration for services in *this* file
@@ -35,3 +37,7 @@ services:
         class: App\Form\Type\RegistrationType
         tags:
             - { name: form.type, alias: app_user_registration }
+
+    App\Service\Slack:
+        arguments:
+            $slackHook: '%slack.hook%'

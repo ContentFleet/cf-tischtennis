@@ -60,6 +60,16 @@ class User extends BaseUser
      */
     private $eloRating = 1500;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbWon;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbLost;
+
     public function __construct()
     {
         parent::__construct();
@@ -181,5 +191,39 @@ class User extends BaseUser
         $this->eloRating = $eloRating;
 
         return $this;
+    }
+
+    public function getNbWon(): ?int
+    {
+        return $this->nbWon;
+    }
+
+    public function setNbWon(?int $nbWon): self
+    {
+        $this->nbWon = $nbWon;
+
+        return $this;
+    }
+
+    public function getNbLost(): ?int
+    {
+        return $this->nbLost;
+    }
+
+    public function setNbLost(?int $nbLost): self
+    {
+        $this->nbLost = $nbLost;
+
+        return $this;
+    }
+
+    public function hasWon()
+    {
+        $this->nbWon++;
+    }
+
+    public function hasLost()
+    {
+        $this->nbLost++;
     }
 }

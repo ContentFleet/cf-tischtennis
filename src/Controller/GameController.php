@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\GameType;
 use App\Repository\GameRepository;
 use App\Repository\UserRepository;
+use App\Service\Slack;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,8 +28,11 @@ class GameController extends AbstractController
 
     /**
      * @Route("/new", name="game_new", methods="GET|POST")
+     * @param Request $request
+     * @param Slack $slackService
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Slack $slackService): Response
     {
         $em = $this->getDoctrine()->getManager();
         $game = new Game();
@@ -61,10 +65,15 @@ class GameController extends AbstractController
                 /** @var UserRepository $userRepository */
                 $userRepository = $this->getDoctrine()->getRepository(User::class);
                 $eloScores = $userRepository->getUpdatedEloScore($winnerUser, $looserUser);
+
+                $winnerUser->hasWon();
+                $looserUser->hasLost();
                 $winnerUser->setEloRating($eloScores['a'] ? $eloScores['a'] : 0);
                 $looserUser->setEloRating($eloScores['b'] ? $eloScores['b'] : 0);
                 $em->persist($winnerUser);
                 $em->persist($looserUser);
+
+                $slackService->sendVictoryMessage($winnerUser,$looserUser);
             }
 
 
