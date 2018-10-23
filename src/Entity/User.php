@@ -195,7 +195,7 @@ class User extends BaseUser
 
     public function getNbWon(): ?int
     {
-        return $this->nbWon;
+        return $this->nbWon ? $this->nbWon : 0;
     }
 
     public function setNbWon(?int $nbWon): self
@@ -207,7 +207,7 @@ class User extends BaseUser
 
     public function getNbLost(): ?int
     {
-        return $this->nbLost;
+        return $this->nbLost ? $this->nbLost : 0;
     }
 
     public function setNbLost(?int $nbLost): self

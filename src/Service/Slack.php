@@ -19,15 +19,51 @@ class Slack
         $this->slackHook = $slackHook;
     }
 
-    public function sendVictoryMessage(User $winner, User $looser)
+    public function sendVictoryMessage(User $winner, User $looser,array $rankingUsers )
     {
-        $text = "*".$winner->getDisplayName()."* won against " . $looser->getDisplayName();
-        $this->sendPostCurlRequest($this->slackHook , $text);
+        $text = "*".$winner->getDisplayName()."* won against " . $looser->getDisplayName() . "\n";
+
+        $text .="\n*Ranking*\n";
+        $text .= "#         Won             Lost                Rating               Name\n";
+        foreach($rankingUsers as $key => $user){
+
+            $text .= $key+1 . "         ";
+
+            /** @var User $user */
+            $nbWon = $user->getNbWon();
+            $text .= $nbWon;
+            $nbTab = 10 - strlen($nbWon) ? 10 - strlen($nbWon) : 1;
+            for ($i = 1; $i <= $nbTab; $i++) {
+                $text .= "  ";
+            }
+
+            $nbLost = $user->getNbLost();
+            $text .= $nbLost;
+            $nbTab = 10 - strlen($nbLost) ? 10 - strlen($nbLost) : 1;
+            for ($i = 1; $i <= $nbTab; $i++) {
+                $text .= "  ";
+            }
+            $text .= "\t";
+
+
+            $eloRanking = $user->getEloRating();
+            $text .= $eloRanking;
+            $nbTab = 10 - mb_strlen($eloRanking) ? 10 - mb_strlen($eloRanking) : 1;
+            for ($i = 1; $i <= $nbTab; $i++) {
+                $text .= "  ";
+            }
+            $text .= "\t";
+
+            $text .= $user->getDisplayName();
+            $text .= "\n";
+        }
+
+        $postFields = ['text' => $text];
+        $this->sendPostCurlRequest($this->slackHook , $postFields);
     }
 
-    protected function sendPostCurlRequest($url, $text)
+    protected function sendPostCurlRequest($url, $postFields)
     {
-        $postFields = ['text' => $text];
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $this->slackHook);

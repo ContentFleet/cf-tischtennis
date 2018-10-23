@@ -73,7 +73,8 @@ class GameController extends AbstractController
                 $em->persist($winnerUser);
                 $em->persist($looserUser);
 
-                $slackService->sendVictoryMessage($winnerUser,$looserUser);
+                $ranking = $userRepository->findBy(array(), array('eloRating' => 'DESC'), 150);
+                $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking);
             }
 
 
