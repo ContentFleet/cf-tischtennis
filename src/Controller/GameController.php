@@ -73,14 +73,13 @@ class GameController extends AbstractController
                 $em->persist($winnerUser);
                 $em->persist($looserUser);
 
+                $game->setWinnerUser($winnerUser);
+                $em->persist($game);
+                $em->flush();
+
                 $ranking = $userRepository->findBy(array(), array('eloRating' => 'DESC'), 150);
                 $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking);
             }
-
-
-            $game->setWinnerUser($winnerUser);
-            $em->persist($game);
-            $em->flush();
 
             return $this->redirectToRoute('game_index');
         }
