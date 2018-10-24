@@ -7,6 +7,7 @@ parameters:
     locale: 'en'
     mailer.user: tischtennis@contentfleet.com
     slack.hook: '%env(string:SLACK_HOOK)%'
+    giphy.api_key: '%env(string:GIPHY_API_KEY)%'
 
 
 services:
@@ -41,3 +42,8 @@ services:
     App\Service\Slack:
         arguments:
             $slackHook: '%slack.hook%'
+            $giphy: '@App\Service\Giphy'
+
+    App\Service\Giphy:
+        arguments:
+            $giphyApiKey: '%giphy.api_key%'
