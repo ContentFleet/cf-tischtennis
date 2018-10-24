@@ -13,10 +13,15 @@ class Slack
 {
 
     protected $slackHook;
+    /**
+     * @var Giphy $giphy
+     */
+    protected $giphy;
 
-    public function __construct($slackHook)
+    public function __construct(string $slackHook, Giphy $giphy)
     {
         $this->slackHook = $slackHook;
+        $this->giphy = $giphy;
     }
 
     public function sendVictoryMessage(User $winner, User $looser,array $rankingUsers )
@@ -59,6 +64,15 @@ class Slack
         }
 
         $postFields = ['text' => $text];
+
+        $gifUrl = $this->giphy->getWinningGifUrl();
+        if($gifUrl) {
+            $postFields['attachments'][] = [
+                "text"      => "Powered by Giphy",
+                "image_url" => $gifUrl
+            ];
+        }
+
         $this->sendPostCurlRequest($this->slackHook , $postFields);
     }
 
