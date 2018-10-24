@@ -26,4 +26,13 @@ class LandingPageController extends AbstractController
         $data['games'] = $gameRepository->findBy(array(), array('id' => 'DESC'), 150);
         return $this->render('landing_page/index.html.twig', $data);
     }
+
+    /**
+     * @Route("/rules", name="rules")
+     */
+    public function rules()
+    {
+        $data = [];
+        return $this->render('landing_page/rules.html.twig', $data);
+    }
 }
