@@ -171,5 +171,11 @@ class Game
         return $this;
     }
 
+    public function __toString() {
+        $toString = $this->id;
+        return json_encode($toString);
+
+    }
+
 
 }
