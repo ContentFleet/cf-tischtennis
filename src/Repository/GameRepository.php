@@ -34,12 +34,12 @@ class GameRepository extends ServiceEntityRepository
             user.firstname,
             user.lastname
         FROM
-            tischtennis.game_user AS gu1
+            game_user AS gu1
                 LEFT JOIN
-            tischtennis.game_user AS gu2 ON gu1.game_id = gu2.game_id
+            game_user AS gu2 ON gu1.game_id = gu2.game_id
                 AND gu1.user_id != gu2.user_id
                 LEFT JOIN
-            tischtennis.game ON gu1.game_id = game.id
+            game ON gu1.game_id = game.id
                 LEFT JOIN
             user ON gu2.user_id = user.id
         WHERE
