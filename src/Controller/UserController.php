@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,10 +50,17 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}", name="user_show", methods="GET")
+     * @param User $user
+     * @param UserRepository $userRepository
+     * @return Response
      */
-    public function show(User $user): Response
+    public function show(User $user, UserRepository $userRepository, GameRepository $gameRepository): Response
     {
-        return $this->render('user/show.html.twig', ['user' => $user]);
+        $winLooseStats = $gameRepository->getStatsAgainstPlayers($user->getId());
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+            'winLooseStats' => $winLooseStats
+        ]);
     }
 
     /**
