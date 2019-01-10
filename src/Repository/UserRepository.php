@@ -29,4 +29,11 @@ class UserRepository extends ServiceEntityRepository
         return $newRating;
     }
 
+    public function getAllEnabledUsers(array $criteria = [], array $orderBy, $limit = 150)
+    {
+        $onlyEnabled = [ 'enabled' => 1];
+        $criteria = array_merge($onlyEnabled,$criteria);
+        return $this->findBy($criteria, $orderBy, $limit);
+    }
+
 }

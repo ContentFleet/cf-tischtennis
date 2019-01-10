@@ -24,14 +24,6 @@ class GameType extends AbstractType
         $this->currentUserId = $options['current_user_id'];
         
         $builder
-            ->add('sets', CollectionType::class, [
-                'entry_type' => GameSetType::class,
-                'allow_add'    => true,
-                'by_reference' => false,
-                'allow_delete' => true,
-                'label' => false,
-                'required' => true
-            ])
             ->add('users', EntityType::class, array(
                 'class'    => User::class,
                 'choice_label' => 'displayName',
@@ -41,6 +33,7 @@ class GameType extends AbstractType
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->where('u.id != :current_user_id')
+                        ->andWhere('u.enabled = 1')
                         ->orderBy('u.firstname', 'ASC')
                         ->setParameter('current_user_id',$this->currentUserId);
                 },

@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/user")
@@ -48,14 +50,22 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}", name="user_show", methods="GET")
+     * @param User $user
+     * @param UserRepository $userRepository
+     * @return Response
      */
-    public function show(User $user): Response
+    public function show(User $user, UserRepository $userRepository, GameRepository $gameRepository): Response
     {
-        return $this->render('user/show.html.twig', ['user' => $user]);
+        $winLooseStats = $gameRepository->getStatsAgainstPlayers($user->getId());
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+            'winLooseStats' => $winLooseStats
+        ]);
     }
 
     /**
      * @Route("/{id}/edit", name="user_edit", methods="GET|POST")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, User $user): Response
     {
@@ -76,6 +86,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}", name="user_delete", methods="DELETE")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, User $user): Response
     {

@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/games")
@@ -77,7 +78,7 @@ class GameController extends AbstractController
                 $em->persist($game);
                 $em->flush();
 
-                $ranking = $userRepository->findBy(array(), array('eloRating' => 'DESC'), 150);
+                $ranking = $userRepository->getAllEnabledUsers(array(), array('eloRating' => 'DESC'), 150);
                 $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking);
             }
 
@@ -103,6 +104,7 @@ class GameController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="game_edit", methods="GET|POST")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Game $game): Response
     {
@@ -123,6 +125,7 @@ class GameController extends AbstractController
 
     /**
      * @Route("/{id}", name="game_delete", methods="DELETE")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Game $game): Response
     {

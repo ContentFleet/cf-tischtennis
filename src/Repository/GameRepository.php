@@ -19,32 +19,38 @@ class GameRepository extends ServiceEntityRepository
         parent::__construct($registry, Game::class);
     }
 
-//    /**
-//     * @return Game[] Returns an array of Game objects
-//     */
-    /*
-    public function findByExampleField($value)
+    public function getStatsAgainstPlayers($userId)
     {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $conn = $this->getEntityManager()->getConnection();
 
-    /*
-    public function findOneBySomeField($value): ?Game
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $sql = '
+        SELECT 
+            gu1.user_id,
+            gu2.user_id,
+            SUM(CASE WHEN winner_user_id = gu1.user_id THEN 1 ELSE  0 END ) as \'nb_win\',
+            SUM(CASE WHEN winner_user_id != gu1.user_id THEN 1 ELSE  0 END ) as \'nb_loose\',
+            SUM(CASE WHEN winner_user_id = gu1.user_id THEN 1 ELSE  -1 END ) as \'avg_win_loose\',
+            user.id,
+            user.firstname,
+            user.lastname
+        FROM
+            tischtennis.game_user AS gu1
+                LEFT JOIN
+            tischtennis.game_user AS gu2 ON gu1.game_id = gu2.game_id
+                AND gu1.user_id != gu2.user_id
+                LEFT JOIN
+            tischtennis.game ON gu1.game_id = game.id
+                LEFT JOIN
+            user ON gu2.user_id = user.id
+        WHERE
+            gu1.user_id = 1
+        GROUP BY gu1.user_id , gu2.user_id
+        ORDER BY avg_win_loose DESC';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['user_id' => $userId]);
+
+        return $stmt->fetchAll();
+
     }
-    */
 }
