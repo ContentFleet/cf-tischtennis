@@ -43,7 +43,7 @@ class GameRepository extends ServiceEntityRepository
                 LEFT JOIN
             user ON gu2.user_id = user.id
         WHERE
-            gu1.user_id = 1
+            gu1.user_id = :user_id
         GROUP BY gu1.user_id , gu2.user_id
         ORDER BY avg_win_loose DESC';
 
