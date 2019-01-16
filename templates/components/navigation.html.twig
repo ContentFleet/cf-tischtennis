@@ -1,39 +1,46 @@
-<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-    <a class="navbar-brand" href="/">CF-Tischtennis <i>(v: pre-alpha)</i></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="collapsibleNavbar">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('game_index') }}">Games</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('rules') }}">Rules</a>
-            </li>
-        </ul>
-    </div>
-    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-        <ul class="navbar-nav ml-auto">
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+<div class="nav-header">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href="{{ path('home_page') }}" class="nav-brand" role="button"><img src="/images/logo_red.png" height="40px"></a>
+        <div class="collapse navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="collapsibleNavbar">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
-                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                    </a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
+                    <a href="{{ path('game_new') }}" class="btn btn-info" role="button">Report a new game</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    <a class="nav-link" href="{{ path('game_index') }}">Games</a>
                 </li>
-            {% endif %}
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <li class="nav-item">
-                    <span class="nav-link">{{ app.user.username }}</span>
+                    <a class="nav-link" href="{{ path('rules') }}">Rules</a>
                 </li>
-            {% endif %}
-        </ul>
-    </div>
-</nav>
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
+                            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                {% endif %}
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li class="nav-item">
+                        <span class="nav-link">{{ app.user.username }}</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</div>
