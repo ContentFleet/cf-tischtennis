@@ -147,7 +147,7 @@ class User extends BaseUser
     }
 
     public function getDisplayName(): string {
-            return $this->getFirstname() . " " . $this->getLastName();
+            return ucfirst($this->getFirstname()) . " " . ucfirst($this->getLastName());
     }
 
     /**
