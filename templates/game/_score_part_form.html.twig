@@ -1,0 +1,12 @@
+<div class="form-group col-md-3">
+    Score:
+</div>
+{% for key,score in form.score.children %}
+    <div class="form-group col-md-1">
+        <div class="form-check">
+            <input type="radio" id="game_score_{{ key }}" name="game[score]" required="required" class="form-check-input"
+                   value="{{ score.vars.value }}"/>
+            <label class="form-check-label required" for="game_score_{{ key }}">{{ score.vars.value }}</label>
+        </div>
+    </div>
+{% endfor %}

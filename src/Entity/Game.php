@@ -49,6 +49,11 @@ class Game
      */
     private $winnerUser;
 
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $score;
+
     public function __construct()
     {
         $this->sets = new ArrayCollection();
@@ -175,6 +180,18 @@ class Game
         $toString = $this->id;
         return json_encode($toString);
 
+    }
+
+    public function getScore(): ?string
+    {
+        return $this->score;
+    }
+
+    public function setScore(string $score): self
+    {
+        $this->score = $score;
+
+        return $this;
     }
 
 

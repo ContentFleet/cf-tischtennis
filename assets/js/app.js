@@ -12,7 +12,6 @@ require('../css/app.scss');
 var $ = require('jquery');
 
 jQuery(document).ready(function() {
-    $('#game_users').removeAttr('multiple');
 
     $('.charts_pie_win_loose').each(function(i, obj) {
         console.log(obj);
@@ -55,6 +54,20 @@ jQuery(document).ready(function() {
             $('.navbar').removeClass('fixed-top');
         }
         console.log(scrollValue);
+    });
+
+
+    $('#game_users').removeAttr('multiple');
+    $('#game_users').on('change', function() {
+        var adversaryId = this.value;
+        var adversaryElo = $(this).find('option:selected').data('elo');
+        var currentUserId = $('#current-user').data('user-id');
+        var currentUserElo = $('#current-user').data('elo');
+
+        $.get( "/games/api/rendered/score?elorating1="+adversaryElo+"&elorating2="+currentUserElo, function( data ) {
+            $( "#game-score" ).html( data.renderedForm );
+        });
+
     });
 });
 

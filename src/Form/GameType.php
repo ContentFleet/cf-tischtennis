@@ -52,6 +52,32 @@ class GameType extends AbstractType
                 'label' => false
                 ]
             )
+            ->add('score',
+                ChoiceType::class,
+                [
+                    'choices'  => [
+                        '3-0' => '3-0',
+                        '3-1' => '3-1',
+                        '3-2' => '3-2',
+                        '2-2' => '2-2',
+                        '2-1' => '2-1',
+                        '2-0' => '2-0',
+                        '1-0' => '1-0',
+                        '1-1' => '1-1',
+                        '0-1' => '0-1',
+                        '0-2' => '0-2',
+                        '1-2' => '1-2',
+                        '2-3' => '2-3',
+                        '1-3' => '1-3',
+                        '0-3' => '0-3',
+                    ],
+                    'placeholder' => false,
+                    'expanded' => true,
+                    'multiple' => false,
+                    'required' => true,
+                    'label' => false
+                ]
+            )
             ->add('save', SubmitType::class, ['label' => 'Report Game']);
         ;
     }

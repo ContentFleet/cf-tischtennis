@@ -1,0 +1,8 @@
+{% block _game_users_widget %}
+    <select id="game_users" name="game[users][]" required="required" class="form-control form-control">
+        <option value="" disabled selected>Select your adversary</option>
+    {% for choice in choices %}
+        <option value="{{ choice.value }}" data-elo="{{ choice.data.eloRating }}">{{ choice.label }} ({{ choice.data.eloRating }})</option>
+    {% endfor %}
+    </select>
+{% endblock %}
