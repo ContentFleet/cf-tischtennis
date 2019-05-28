@@ -14,9 +14,74 @@ var $ = require('jquery');
 jQuery(document).ready(function() {
     $('#game_users').removeAttr('multiple');
 
-    $('.charts_pie_win_loose').each(function(i, obj) {
-        console.log(obj);
 
+    $('.elo-history-canvas').each(function(i, obj) {
+        var ctx = document.getElementById($( this ).attr('id')).getContext('2d');
+        var label = $( this ).data('label');
+        var labelArray = label.split(',');
+        var value = $( this ).data('value');
+        var valueArray = value.split(',').map(Number);
+
+        console.log(labelArray);
+        console.log(valueArray);
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: labelArray,
+                datasets: [{
+                    label: 'Elo History',
+                    backgroundColor: "blue",
+                    borderColor: "blue",
+                    data: valueArray,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Average Elo Rating / Month'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        };
+
+        window.myLine = new Chart(ctx, config);
+
+
+
+
+    });
+
+
+    $('.charts_pie_win_loose').each(function(i, obj) {
         var ctx = document.getElementById($( this ).attr('id')).getContext('2d');
         var chart = new Chart(ctx, {
             // The type of chart we want to create
@@ -42,8 +107,6 @@ jQuery(document).ready(function() {
         ]
     }
     });
-
-
     });
 
     $(window).on('scroll', function(event) {
@@ -54,7 +117,6 @@ jQuery(document).ready(function() {
         else{
             $('.navbar').removeClass('fixed-top');
         }
-        console.log(scrollValue);
     });
 });
 

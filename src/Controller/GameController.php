@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\EloHistory;
 use App\Entity\Game;
 use App\Entity\User;
 use App\Form\GameType;
+use App\Repository\EloHistoryRepository;
 use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 use App\Service\Slack;
@@ -65,10 +67,16 @@ class GameController extends AbstractController
             if ($looserUser && $winnerUser) {
                 /** @var UserRepository $userRepository */
                 $userRepository = $this->getDoctrine()->getRepository(User::class);
+                /** @var EloHistoryRepository $eloRepository */
+                $eloRepository = $this->getDoctrine()->getRepository(EloHistory::class);
                 $eloScores = $userRepository->getUpdatedEloScore($winnerUser, $looserUser);
 
                 $winnerUser->hasWon();
                 $looserUser->hasLost();
+
+                $eloRepository->saveCurrentEloRating($winnerUser);
+                $eloRepository->saveCurrentEloRating($looserUser);
+
                 $winnerUser->setEloRating($eloScores['a'] ? $eloScores['a'] : 0);
                 $looserUser->setEloRating($eloScores['b'] ? $eloScores['b'] : 0);
                 $em->persist($winnerUser);
