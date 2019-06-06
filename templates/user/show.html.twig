@@ -47,6 +47,11 @@
 
 
     <hr/>
+    <h2>Elo History </h2>
+    <div class="row">
+        {% include '/user/stats_elo_history.html.twig' with {'eloHistory' : eloHistory} only %}
+    </div>
+    <hr/>
     <h2>Stats Win / Loose </h2>
     <div class="row">
             {% for winLooseStat in winLooseStats %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\EloHistoryRepository;
 use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,12 +55,14 @@ class UserController extends AbstractController
      * @param UserRepository $userRepository
      * @return Response
      */
-    public function show(User $user, UserRepository $userRepository, GameRepository $gameRepository): Response
+    public function show(User $user, UserRepository $userRepository, GameRepository $gameRepository, EloHistoryRepository $eloHistoryRepository): Response
     {
         $winLooseStats = $gameRepository->getStatsAgainstPlayers($user->getId());
+        $eloHistory = $eloHistoryRepository->getEloHistory($user->getId());
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'winLooseStats' => $winLooseStats
+            'winLooseStats' => $winLooseStats,
+            'eloHistory' => $eloHistory
         ]);
     }
 
