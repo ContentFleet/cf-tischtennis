@@ -19,8 +19,10 @@ jQuery(document).ready(function() {
         var ctx = document.getElementById($( this ).attr('id')).getContext('2d');
         var label = $( this ).data('label');
         var labelArray = label.split(',');
+        labelArray.pop();
         var value = $( this ).data('value');
         var valueArray = value.split(',').map(Number);
+        valueArray.pop();
 
         console.log(labelArray);
         console.log(valueArray);
