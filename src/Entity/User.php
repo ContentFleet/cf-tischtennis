@@ -70,11 +70,17 @@ class User extends BaseUser
      */
     private $nbLost;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EloHistory", mappedBy="user")
+     */
+    private $eloHistories;
+
     public function __construct()
     {
         parent::__construct();
         $this->games = new ArrayCollection();
         $this->wonGames = new ArrayCollection();
+        $this->eloHistories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,5 +231,36 @@ class User extends BaseUser
     public function hasLost()
     {
         $this->nbLost++;
+    }
+
+    /**
+     * @return Collection|EloHistory[]
+     */
+    public function getEloHistories(): Collection
+    {
+        return $this->eloHistories;
+    }
+
+    public function addEloHistory(EloHistory $eloHistory): self
+    {
+        if (!$this->eloHistories->contains($eloHistory)) {
+            $this->eloHistories[] = $eloHistory;
+            $eloHistory->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEloHistory(EloHistory $eloHistory): self
+    {
+        if ($this->eloHistories->contains($eloHistory)) {
+            $this->eloHistories->removeElement($eloHistory);
+            // set the owning side to null (unless already changed)
+            if ($eloHistory->getUser() === $this) {
+                $eloHistory->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

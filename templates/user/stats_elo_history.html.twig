@@ -1,0 +1,19 @@
+{% set label = [] %}
+{% set value = [] %}
+{% for eloValue in eloHistory %}
+    {% set label = label|merge([eloValue.dateAsMonth]) %}
+    {% set value = value|merge([eloValue.eloRatingAvg | round]) %}
+{% endfor %}
+
+<div style="width:100%;" >
+    <canvas
+            class="elo-history-canvas"
+            id="elo-history-canvas"
+            data-label="{{ label|join(',') }},"
+            data-value="{{ value|join(',') }},">
+    </canvas>
+</div>
+<script>
+
+
+</script>
