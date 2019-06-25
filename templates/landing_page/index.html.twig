@@ -2,28 +2,12 @@
 
 {% block body %}
 <div class="row">
-    <div class="col-lg-12">
-        <h2 class="h2">Classement</h2>
+    <div class="col-lg-12 text-center">
+        <a href="{{ path('tabletennis_game_new') }}" class="btn btn-info" role="button">Report a new table tennis game</a>
     </div>
     <div class="col-lg-12 text-center">
-        {% include "/user/table.html.twig" %}
-        <a href="{{ path('game_new') }}" class="btn btn-info" role="button">Report a new game</a>
+        <a href="{{ path('tabletennis_game_new') }}" class="btn btn-info" role="button">Report a new pool game</a>
     </div>
 </div>
 
-{#<div class="row">#}
-    {#<div class="col-lg-12">#}
-        {#<div class="container-fluid full-width-image"></div>#}
-    {#</div>#}
-{#</div>#}
-
-<div class="row">
-    <div class="col-lg-12">
-        <h2 class="h2">Last games</h2>
-    </div>
-    <div class="col-lg-12 text-center">
-        {% include "/game/table.html.twig" %}
-        <a href="{{ path('game_new') }}" class="btn btn-info" role="button">Report a new game</a>
-    </div>
-</div>
 {% endblock %}

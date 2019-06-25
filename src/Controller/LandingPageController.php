@@ -23,17 +23,6 @@ class LandingPageController extends AbstractController
         $userRepository = $this->getDoctrine()->getRepository(User::class);
 
         $data = [];
-        $data['users'] = $userRepository->getAllEnabledUsers(array(), array('eloRating' => 'DESC'), 150);
-        $data['games'] = $gameRepository->findBy(array(), array('id' => 'DESC'), 150);
         return $this->render('landing_page/index.html.twig', $data);
-    }
-
-    /**
-     * @Route("/rules", name="rules")
-     */
-    public function rules()
-    {
-        $data = [];
-        return $this->render('landing_page/rules.html.twig', $data);
     }
 }

@@ -19,18 +19,43 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 /**
  * @Route("/games")
  */
-class GameController extends AbstractController
+class TableTennisController extends AbstractController
 {
     /**
-     * @Route("/", name="game_index", methods="GET")
+     * @Route("/tabletennis", name="tabletennis_home_page")
      */
-    public function index(GameRepository $gameRepository): Response
+    public function index()
     {
-        return $this->render('game/index.html.twig', ['games' => $gameRepository->findBy(array(), array('id' => 'DESC'), 100)]);
+        /** @var GameRepository $gameRepository */
+        $gameRepository = $this->getDoctrine()->getRepository(Game::class);
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+
+        $data = [];
+        $data['users'] = $userRepository->getAllEnabledUsers(array(), array('eloRating' => 'DESC'), 150);
+        $data['games'] = $gameRepository->findBy(array(), array('id' => 'DESC'), 150);
+        return $this->render('tabletennis/index.html.twig', $data);
     }
 
     /**
-     * @Route("/new", name="game_new", methods="GET|POST")
+     * @Route("tabletennis/rules", name="rules")
+     */
+    public function rules()
+    {
+        $data = [];
+        return $this->render('landing_page/rules.html.twig', $data);
+    }
+
+    /**
+     * @Route("/tabletennis/games", name="tabletennis_game_index", methods="GET")
+     */
+    public function gameIndex(GameRepository $gameRepository): Response
+    {
+        return $this->render('tabletennis/index.html.twig', ['games' => $gameRepository->findBy(array(), array('id' => 'DESC'), 100)]);
+    }
+
+    /**
+     * @Route("tabletennis/new", name="tabletennis_game_new", methods="GET|POST")
      * @param Request $request
      * @param Slack $slackService
      * @return Response
@@ -90,12 +115,12 @@ class GameController extends AbstractController
                 $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking);
             }
 
-            return $this->redirectToRoute('game_index');
+            return $this->redirectToRoute('tabletennis_game_index');
         }
 
         $currentUser = $this->getUser();
 
-        return $this->render('game/new.html.twig', [
+        return $this->render('tabletennis/new.html.twig', [
             'game'        => $game,
             'form'        => $form->createView(),
             'currentUser' => $currentUser
@@ -103,15 +128,15 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="game_show", methods="GET")
+     * @Route("tabletennis/{id}", name="tabletennis_game_show", methods="GET")
      */
     public function show(Game $game): Response
     {
-        return $this->render('game/show.html.twig', ['game' => $game]);
+        return $this->render('tabletennis/show.html.twig', ['game' => $game]);
     }
 
     /**
-     * @Route("/{id}/edit", name="game_edit", methods="GET|POST")
+     * @Route("tabletennis/{id}/edit", name="tabletennis_game_edit", methods="GET|POST")
      * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Game $game): Response
@@ -122,17 +147,17 @@ class GameController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('game_edit', ['id' => $game->getId()]);
+            return $this->redirectToRoute('tabletennis_game_edit', ['id' => $game->getId()]);
         }
 
-        return $this->render('game/edit.html.twig', [
+        return $this->render('tabletennis/edit.html.twig', [
             'game' => $game,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="game_delete", methods="DELETE")
+     * @Route("tabletennis/{id}", name="tabletennis_game_delete", methods="DELETE")
      * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Game $game): Response
@@ -143,6 +168,6 @@ class GameController extends AbstractController
             $em->flush();
         }
 
-        return $this->redirectToRoute('game_index');
+        return $this->redirectToRoute('tabletennis_game_index');
     }
 }
