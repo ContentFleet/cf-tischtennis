@@ -1,0 +1,17 @@
+{% extends 'billiard/base.html.twig' %}
+
+{% block title %}New Game{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1 class="mt-5">Report billiard</h1>
+        </div>
+    </div>
+
+    {{ include('billiard/_form.html.twig') }}
+
+
+    <a href="{{ path('billiard_game_index') }}">back to list</a>
+{% endblock %}

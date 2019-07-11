@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\BilliardStats;
 use App\Entity\Game;
+use App\Entity\TableTennisStats;
 use App\Entity\User;
+use App\Repository\BilliardStatsRepository;
 use App\Repository\GameRepository;
+use App\Repository\TableTennisStatsRepository;
 use App\Repository\UserRepository;
 use Chovanec\Rating\Rating;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,12 +21,15 @@ class LandingPageController extends AbstractController
      */
     public function index()
     {
-        /** @var GameRepository $gameRepository */
-        $gameRepository = $this->getDoctrine()->getRepository(Game::class);
-        /** @var UserRepository $userRepository */
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        /** @var TableTennisStatsRepository $tableTennisStatsRepository */
+        $tableTennisStatsRepository = $this->getDoctrine()->getRepository(TableTennisStats::class);
+        /** @var BilliardStatsRepository $billiardStatsRepository */
+        $billiardStatsRepository = $this->getDoctrine()->getRepository(BilliardStats::class);
 
         $data = [];
+        $data['usersTableTennis'] = $tableTennisStatsRepository->getUserRanking(10);
+        $data['usersBilliard'] = $billiardStatsRepository->getUserRanking(10);
+
         return $this->render('landing_page/index.html.twig', $data);
     }
 }

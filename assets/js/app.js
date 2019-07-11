@@ -20,24 +20,32 @@ jQuery(document).ready(function() {
         var label = $( this ).data('label');
         var labelArray = label.split(',');
         labelArray.pop();
-        var value = $( this ).data('value');
-        var valueArray = value.split(',').map(Number);
-        valueArray.pop();
-
-        console.log(labelArray);
-        console.log(valueArray);
+        var value1 = $( this ).data('value1');
+        var valueArray1 = value1.split(',').map(Number);
+        valueArray1.pop();
+        var value2 = $( this ).data('value2');
+        var valueArray2 = value2.split(',').map(Number);
+        valueArray2.pop();
 
         var config = {
             type: 'line',
             data: {
                 labels: labelArray,
                 datasets: [{
-                    label: 'Elo History',
+                    label: 'Table Tennis Elo History',
+                    backgroundColor: "red",
+                    borderColor: "red",
+                    data: valueArray1,
+                    fill: false
+                },
+                {
+                    label: 'Billiard Elo History',
                     backgroundColor: "blue",
                     borderColor: "blue",
-                    data: valueArray,
+                    data: valueArray2,
                     fill: false
-                }]
+                }
+                ]
             },
             options: {
                 responsive: true,

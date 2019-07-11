@@ -1,0 +1,39 @@
+{{ form_start(form) }}
+<div class="form-row">
+    <div class="form-group col-md-3">
+        Players
+    </div>
+    <div class="form-group col-md-4  text-center">
+        {{ form_widget(form.users, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group col-md-1 text-center" style="padding: .375rem .75rem;">
+        VS
+    </div>
+    <div class="form-group col-md-4  text-center">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="game_current_user form-control">{{ app.user.displayName }}</div>
+        {% endif %}
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-3">
+        Winner:
+    </div>
+    {% for winner in form.winner.children %}
+        <div class="form-group col-md-4 text-center">
+            {{ form_widget(winner) }}
+        </div>
+        {% if not loop.last %}
+            <div class="form-group col-md-1"></div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-5">
+        {{ form_widget(form.save, {'attr' : {'class': 'btn btn-primary' }}) }}
+    </div>
+</div>
+{{ form_end(form) }}
+
+

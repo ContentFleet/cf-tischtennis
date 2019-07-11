@@ -3,17 +3,18 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a href="{{ path('tabletennis_home_page') }}" class="nav-brand" role="button"><img src="/images/logo_red.png" height="40px"></a>
+        <a href="{{ path('home_page') }}" class="nav-brand" role="button"><img src="/images/cup_logo_white.png" height="38px"></a>
+        <a href="{{ path('tabletennis_home_page') }}" class="nav-brand" role="button"><img src="/images/logo_red.png" height="38px"></a>
+        <a href="{{ path('billiard_home_page') }}" class="nav-brand" role="button"><img src="/images/billiard_logo_blue.png" height="38px"></a>
         <div class="collapse navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="collapsibleNavbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="{{ path('tabletennis_game_new') }}" class="btn btn-info" role="button">Report a new game</a>
+                    <a href="{{ path('tabletennis_game_new') }}" class="btn btn-info" role="button">Report
+                        tabletennis</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('tabletennis_game_index') }}">Games</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('rules') }}">Rules</a>
+                    <a href="{{ path('billiard_game_new') }}" class="btn btn-info btn-blue" role="button">Report
+                        billiard</a>
                 </li>
             </ul>
         </div>

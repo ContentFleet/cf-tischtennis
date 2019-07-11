@@ -1,9 +1,9 @@
-<h3>{{ winLooseStat.firstname }} {{ winLooseStat.lastname }} <a href="{{ path('user_show', {'id': winLooseStat.id }) }}"><span class="far fa-user"></span></a></h3>
+<h4>{{ winLooseStat.firstname }} {{ winLooseStat.lastname }} <a href="{{ path('user_show', {'id': winLooseStat.id }) }}"><span class="far fa-user"></span></a></h4>
 <canvas
-        id="pie_{{ winLooseStat.id }}"
+        id="{{ gamePrefix }}_pie_{{ winLooseStat.id }}"
         class="charts_pie_win_loose"
-        width="100"
-        height="100"
+        width="50"
+        height="50"
         data-nbwin="{{ winLooseStat.nb_win }}"
         data-nbloose="{{ winLooseStat.nb_loose }}"
 >

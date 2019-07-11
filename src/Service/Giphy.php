@@ -27,8 +27,8 @@ class Giphy
     {
         $gifJson = $this->sendGetCurlRequest('happy');
         $gif = json_decode($gifJson, true);
-        if($gif && isset($gif['data']) && isset($gif['data']['images']) && isset($gif['data']['images']['fixed_height_small'])){
-            return $gif['data']['images']['fixed_height_small']['url'];
+        if($gif && isset($gif['data']) && isset($gif['data']['images']) && isset($gif['data']['images']['downsized_medium'])){
+            return $gif['data']['images']['downsized_medium']['url'];
         }
         return null;
     }

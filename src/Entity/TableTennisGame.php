@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\GameRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TableTennisGameRepository")
  */
-class Game
+class TableTennisGame implements GameInterface
 {
     /**
      * @ORM\Id()
@@ -17,6 +17,17 @@ class Game
      * @ORM\Column(type="integer")
      */
     protected $id;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="tableTennisGames")
+     */
+    protected $users;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tableTennisWonGames")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $winnerUser;
 
     /**
      * @ORM\Column(type="datetime")
@@ -29,20 +40,9 @@ class Game
     protected $updatedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="games")
-     */
-    protected $users;
-
-    /**
      * @ORM\Column(type="integer")
      */
     protected $winner;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="wonGames")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    protected $winnerUser;
 
     public function __construct()
     {
@@ -128,7 +128,7 @@ class Game
         return $this->winnerUser;
     }
 
-    public function setWinnerUser(User $winnerUser): Game
+    public function setWinnerUser(User $winnerUser): self
     {
         $this->winnerUser = $winnerUser;
 

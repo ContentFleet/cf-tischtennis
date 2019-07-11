@@ -37,8 +37,12 @@
                 <td>{{ user.compagny }}</td>
             </tr>
             <tr>
-                <th>EloRating</th>
-                <td>{{ user.eloRating }}</td>
+                <th>Table tennis Elo Rating</th>
+                <td>{{ user.tableTennisStats.eloRating }}</td>
+            </tr>
+            <tr>
+                <th>Billiard Elo Rating</th>
+                <td>{{ user.billiardStats.eloRating }}</td>
             </tr>
         </tbody>
     </table>
@@ -46,20 +50,37 @@
     <a href="{{ path('user_index') }}" class="btn btn-info" role="button">back to list</a>
 
 
-    <hr/>
-    <h2>Elo History </h2>
+    <h3>Elo History </h3>
     <div class="row">
-        {% include '/user/stats_elo_history.html.twig' with {'eloHistory' : eloHistory} only %}
+        {% include '/user/stats_elo_history.html.twig' with {'eloHistory1' : tableTennisEloHistory,'eloHistory2' : billiardEloHistory} only %}
     </div>
-    <hr/>
-    <h2>Stats Win / Loose </h2>
+    {% if tableTennisEloHistory and tableTennisWinLooseStats %}
+        <hr/>
+    <h2>Table Tennis Stats</h2>
+    <h3>Stats Win / Loose </h3>
     <div class="row">
-            {% for winLooseStat in winLooseStats %}
-            <div class="col-lg-4 text-center">
-                {% include '/user/stats_win_loose.html.twig' with {'winLooseStat' : winLooseStat} only %}
+            {% for winLooseStat in tableTennisWinLooseStats %}
+            <div class="col-lg-3 text-center">
+                {% include '/user/stats_win_loose.html.twig' with {'winLooseStat' : winLooseStat, 'gamePrefix' : 'tt'} only %}
             </div>
             {% endfor %}
     </div>
+    {% endif %}
+
+
+    {% if billiardEloHistory and billiardWinLooseStats %}
+
+        <hr/>
+        <h2>Billiards Stats</h2>
+        <h3>Stats Win / Loose </h3>
+        <div class="row">
+            {% for winLooseStat in billiardWinLooseStats %}
+                <div class="col-lg-3 text-center">
+                    {% include '/user/stats_win_loose.html.twig' with {'winLooseStat' : winLooseStat, 'gamePrefix' : 'billiard'} only %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
 
 {% endblock %}
