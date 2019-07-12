@@ -5,13 +5,13 @@
 {% block body %}
 
     <div class="row">
-        <div class="col-lg-12 text-center">
+        <div class="form-group col-md-3">
+        </div>
+        <div class="col-md-9 text-center">
             <h1 class="mt-5">Report table tennis</h1>
         </div>
     </div>
 
     {{ include('tabletennis/_form.html.twig') }}
 
-
-    <a href="{{ path('tabletennis_game_index') }}">back to list</a>
 {% endblock %}

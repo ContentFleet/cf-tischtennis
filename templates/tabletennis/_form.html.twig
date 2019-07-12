@@ -17,7 +17,7 @@
 </div>
 <div class="form-row">
     <div class="form-group col-md-3">
-        Winner:
+        Winner
     </div>
     {% for winner in form.winner.children %}
         <div class="form-group col-md-4 text-center">
@@ -30,8 +30,10 @@
 </div>
 
 <div class="form-row">
-    <div class="form-group col-md-5">
-        {{ form_widget(form.save, {'attr' : {'class': 'btn btn-primary' }}) }}
+    <div class="form-group col-md-3">
+    </div>
+    <div class="form-group col-md-9 text-center">
+        {{ form_widget(form.save, {'attr' : {'class': 'btn btn-tabletennis' }}) }}
     </div>
 </div>
 {{ form_end(form) }}

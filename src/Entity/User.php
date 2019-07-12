@@ -91,7 +91,7 @@ class User extends BaseUser
     private $tableTennisStats;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\TableTennisGame", mappedBy="winnerUser")
+     * @ORM\ManyToMany(targetEntity="App\Entity\TableTennisGame", mappedBy="users")
      */
     private $tableTennisGames;
 
@@ -101,7 +101,7 @@ class User extends BaseUser
     private $billiardStats;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\BilliardGame", mappedBy="user")
+     * @ORM\ManyToMany(targetEntity="App\Entity\BilliardGame", mappedBy="users")
      */
     private $billiardGames;
 

@@ -1,4 +1,6 @@
 @import "~bootstrap/scss/bootstrap";
+$red: #e92351;
+$blue: #0B6DC0;
 
 * {
   font-family: "Arial";
@@ -36,6 +38,7 @@ body {
 }
 
 .nav-header {
+  height: 82px;
   margin-bottom: 30px;
 }
 
@@ -43,6 +46,7 @@ body {
   margin: auto;
   z-index: 1030;
   justify-content: left;
+  border: 3px solid black;
 
   li {
     display: flex;
@@ -62,6 +66,18 @@ body {
   margin-right: 10px;
 }
 
+.billiard{
+  .navbar {
+    border: 3px solid $blue;
+  }
+}
+
+.table-tennis {
+  .navbar {
+    border: 3px solid $red;
+  }
+}
+
 @media (min-width: 1200px) {
   .navbar {
     max-width: 1280px;
@@ -70,6 +86,10 @@ body {
 
 .navbar-dark .navbar-nav .nav-link {
   color: white;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     color: #EB3963;
@@ -136,14 +156,14 @@ body {
   margin: 20px 0 20px;
 }
 
-$mynewcolor: #e92351;
-.btn-info {
-  @include button-variant($mynewcolor, darken($mynewcolor, 7.5%), darken($mynewcolor, 10%), lighten($mynewcolor, 5%), lighten($mynewcolor, 10%), darken($mynewcolor, 20%));
+
+.btn-tabletennis {
+  @include button-variant($red, darken($red, 7.5%), darken($red, 10%), lighten($red, 5%), lighten($red, 10%), darken($red, 20%));
 }
 
-$bluecolor: #0B6DC0;
-.btn-blue {
-  @include button-variant($bluecolor, darken($bluecolor, 7.5%), darken($bluecolor, 10%), lighten($bluecolor, 5%), lighten($bluecolor, 10%), darken($bluecolor, 20%));
+
+.btn-billiard {
+  @include button-variant($blue, darken($blue, 7.5%), darken($blue, 10%), lighten($blue, 5%), lighten($blue, 10%), darken($blue, 20%));
 }
 
 @include media-breakpoint-down(sm) {

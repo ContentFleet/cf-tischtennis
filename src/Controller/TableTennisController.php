@@ -124,7 +124,7 @@ class TableTennisController extends AbstractController
                 $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking);
             }
 
-            return $this->redirectToRoute('tabletennis_game_index');
+            return $this->redirectToRoute('tabletennis_home_page');
         }
 
         $currentUser = $this->getUser();

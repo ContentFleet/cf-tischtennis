@@ -122,7 +122,7 @@ class BilliardController extends AbstractController
                 $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking);
             }
 
-            return $this->redirectToRoute('billiard_game_index');
+            return $this->redirectToRoute('billiard_home_page');
         }
 
         $currentUser = $this->getUser();
