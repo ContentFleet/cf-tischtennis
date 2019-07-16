@@ -22,8 +22,12 @@ class TableTennisStatsRepository extends ServiceEntityRepository
 
     public function getUserRanking(int $limit = null)
     {
-        $params = ['eloRating' => 'DESC'];
-        $ranking = $this->findBy(array(), $params, $limit);
+        $db = $this->createQueryBuilder('stats')
+            ->leftJoin('stats.user', 'user')
+            ->andWhere('user.enabled = true')
+            ->orderBy('stats.eloRating', 'DESC')
+            ->setMaxResults($limit);
+        $ranking = $db->getQuery()->getResult();
         return $ranking;
     }
 
