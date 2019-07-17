@@ -40,21 +40,29 @@ class TableTennisEloHistoryRepository extends ServiceEntityRepository
      * @return mixed
      * @throws \Exception
      */
-    public function getEloHistory(?int $userId)
+    public function getEloHistory(?int $userId, $monthsEloHistory)
     {
+        $firstMonth = reset($monthsEloHistory);
+        $minDate = new \DateTime($firstMonth);
+
+
         $db = $this->createQueryBuilder('eloRep')
             ->select('avg(eloRep.eloRating) as eloRatingAvg, max(eloRep.eloRating) as eloRatingMax, min(eloRep.eloRating) as eloRatingMin, DATE_FORMAT(eloRep.createdAt, \'%Y-%m\') as dateAsMonth')
             ->leftJoin('eloRep.user', 'user')
             ->andWhere('user.id = :userId')
-            ->setParameter('userId', $userId)
-            ->orderBy('dateAsMonth')
+            ->andWhere('eloRep.createdAt >= :minDate')
+            ->orderBy('dateAsMonth', 'ASC')
             ->groupBy('dateAsMonth')
-            ->setMaxResults(12);
+            ->setParameter('userId', $userId)
+            ->setParameter('minDate', $minDate->format('Y-m-d'));
         $result = $db->getQuery()->getResult();
 
         $lastValue = null;
         $preparedData = [];
+
         foreach ($result as $value) {
+            $crtDate = new \DateTime($value['dateAsMonth']);
+
             if (!$lastValue) {
                 $preparedData[] = $value;
                 $lastValue = $value;
@@ -62,7 +70,6 @@ class TableTennisEloHistoryRepository extends ServiceEntityRepository
             }
 
             $lastDate = new \DateTime($lastValue['dateAsMonth']);
-            $crtDate = new \DateTime($value['dateAsMonth']);
             $monthDiff = $lastDate->diff($crtDate)->m;
             for($addMonth = 1; $addMonth < $monthDiff; $addMonth++) {
                 $lastDate->add(new \DateInterval('P1M'));
@@ -74,35 +81,34 @@ class TableTennisEloHistoryRepository extends ServiceEntityRepository
             $lastValue = $value;
         }
 
+        $firstPreparedValue = reset($preparedData);
+        $firstDate = new \DateTime($firstPreparedValue['dateAsMonth']);
+        $lastPreparedValue = end($preparedData);
+        $lastDate = new \DateTime($lastPreparedValue['dateAsMonth']);
+        $missingMonth = [];
+
+        if($monthsEloHistory) {
+            foreach($monthsEloHistory as $monthEloHistory) {
+                if($monthEloHistory){
+                    $monthEloDate = new \DateTime($monthEloHistory);
+                    if($monthEloDate < $firstDate) {
+                        $blankData['eloRatingAvg'] = 0;
+                        $blankData['eloRatingMax'] = 0;
+                        $blankData['eloRatingMin'] = 0;
+                        $blankData['dateAsMonth'] = $monthEloHistory;
+                        $missingMonth[] = $blankData;
+                    }
+                    else{
+                        $preparedData = array_merge($missingMonth,$preparedData);
+                        $missingMonth = [];
+                    }
+                    if($monthEloDate > $lastDate){
+                        $preparedData[] = $lastPreparedValue;
+                    }
+                }
+            }
+        }
+
         return $preparedData;
     }
-
-//    /**
-//     * @return EloHistory[] Returns an array of EloHistory objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?EloHistory
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

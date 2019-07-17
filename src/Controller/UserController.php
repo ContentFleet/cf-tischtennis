@@ -73,11 +73,18 @@ class UserController extends AbstractController
     ): Response
     {
         $tableTennisWinLooseStats = $tableTennisGameRepository->getStatsAgainstPlayers($user->getId());
-        $tableTennisEloHistory = $tableTennisEloHistoryRepository->getEloHistory($user->getId());
         $billiardWinLooseStats = $billiardGameRepository->getStatsAgainstPlayers($user->getId());
-        $billiardEloHistory = $billiardEloHistoryRepository->getEloHistory($user->getId());
+        $monthsEloHistory = [];
+        $dateEloHistory = new \DateTime("- 5 months");
+        for ($i = 1; $i <= 6; $i++) {
+            $monthsEloHistory[] = $dateEloHistory->format("Y-m");
+            $dateEloHistory->add(new \DateInterval("P1M"));
+        }
+        $tableTennisEloHistory = $tableTennisEloHistoryRepository->getEloHistory($user->getId(), $monthsEloHistory);
+        $billiardEloHistory = $billiardEloHistoryRepository->getEloHistory($user->getId(), $monthsEloHistory);
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'monthsEloHistory' => $monthsEloHistory,
             'tableTennisWinLooseStats' => $tableTennisWinLooseStats,
             'tableTennisEloHistory' => $tableTennisEloHistory,
             'billiardWinLooseStats' => $billiardWinLooseStats,

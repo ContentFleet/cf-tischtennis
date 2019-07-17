@@ -171,3 +171,18 @@ body {
     font-size: 25px;
   }
 }
+
+.win-loose-stats {
+  padding-bottom: 30px;
+  border-bottom: 1px solid;
+  @include media-breakpoint-up(md) {
+    height: 350px;
+  }
+  h4{
+    padding-top: 20px;
+    margin-bottom: 0;
+    @include media-breakpoint-up(md) {
+      height: 80px;
+    }
+  }
+}
