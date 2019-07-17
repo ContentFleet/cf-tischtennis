@@ -38,16 +38,18 @@ class BilliardController extends AbstractController
 
         $data = [];
         $data['usersBilliard'] = $billiardStatsRepository->getUserRanking(150);
+        $games = $gameRepository->findBy(array(), array('id' => 'DESC'), 5);
+        $data['games'] = $games;
         return $this->render('billiard/index.html.twig', $data);
     }
 
     /**
-     * @Route("billiard/rules", name="rules")
+     * @Route("billiard/rules", name="billiard_rules")
      */
     public function rules()
     {
         $data = [];
-        return $this->render('landing_page/rules.html.twig', $data);
+        return $this->render('billiard/rules.html.twig', $data);
     }
 
     /**

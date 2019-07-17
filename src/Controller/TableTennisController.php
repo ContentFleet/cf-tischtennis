@@ -41,16 +41,18 @@ class TableTennisController extends AbstractController
 
         $data = [];
         $data['usersTableTennis'] = $tableTennisStatsRepository->getUserRanking(150);
+        $games = $gameRepository->findBy(array(), array('id' => 'DESC'), 5);
+        $data['games'] = $games;
         return $this->render('tabletennis/index.html.twig', $data);
     }
 
     /**
-     * @Route("tabletennis/rules", name="rules")
+     * @Route("tabletennis/rules", name="tabletennis_rules")
      */
     public function rules()
     {
         $data = [];
-        return $this->render('landing_page/rules.html.twig', $data);
+        return $this->render('tabletennis/rules.html.twig', $data);
     }
 
     /**

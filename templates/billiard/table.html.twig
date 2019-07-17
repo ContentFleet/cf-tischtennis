@@ -16,8 +16,8 @@
                 <td>{{ pos+1 }}</td>
                 <td>{{ user.getDisplayName() }} <a href="{{ path('user_show', {'id': user.id}) }}"><span class="far fa-user"></span></a></td>
                 <td>{{ userStat.getEloRating() }}</td>
-                <td>{{ user.getNbWon() }}</td>
-                <td>{{ user.getNbLost() }}</td>
+                <td>{{ userStat.getNbWon() }}</td>
+                <td>{{ userStat.getNbLost() }}</td>
             </tr>
         {% else %}
             <tr>
