@@ -30,19 +30,20 @@ class Slack
 
         $text .="\n*Ranking*\n";
         $text .= "#         Won             Lost                Rating               Name\n";
-        foreach($rankingUsers as $key => $user){
+        foreach($rankingUsers as $key => $userStats){
+            $user = $userStats->getUser();
 
             $text .= $key+1 . "         ";
 
             /** @var User $user */
-            $nbWon = $user->getNbWon();
+            $nbWon = $userStats->getNbWon();
             $text .= $nbWon;
             $nbTab = 10 - strlen($nbWon) ? 10 - strlen($nbWon) : 1;
             for ($i = 1; $i <= $nbTab; $i++) {
                 $text .= "  ";
             }
 
-            $nbLost = $user->getNbLost();
+            $nbLost = $userStats->getNbLost();
             $text .= $nbLost;
             $nbTab = 10 - strlen($nbLost) ? 10 - strlen($nbLost) : 1;
             for ($i = 1; $i <= $nbTab; $i++) {
@@ -51,7 +52,7 @@ class Slack
             $text .= "\t";
 
 
-            $eloRanking = $user->getEloRating();
+            $eloRanking = $userStats->getEloRating();
             $text .= $eloRanking;
             $nbTab = 10 - mb_strlen($eloRanking) ? 10 - mb_strlen($eloRanking) : 1;
             for ($i = 1; $i <= $nbTab; $i++) {

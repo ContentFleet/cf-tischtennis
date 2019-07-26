@@ -22,9 +22,9 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function getUpdatedEloScore(User $winnerUser, User $looserUser)
+    public function getUpdatedEloScore($winnerStats, $looserStats)
     {
-        $rating = new Rating($winnerUser->getEloRating() , $looserUser->getEloRating(), Rating::WIN, Rating::LOST);
+        $rating = new Rating($winnerStats->getEloRating() , $looserStats->getEloRating(), Rating::WIN, Rating::LOST);
         $newRating = $rating->getNewRatings();
         return $newRating;
     }

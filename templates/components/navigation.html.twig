@@ -3,21 +3,26 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a href="{{ path('home_page') }}" class="nav-brand" role="button"><img src="/images/logo_red.png" height="40px"></a>
+        <a href="{{ path('home_page') }}" class="nav-brand" role="button"><img src="/images/cup_logo_white.png" height="38px"></a>
+        <a href="{{ path('tabletennis_home_page') }}" class="nav-brand" role="button"><img src="/images/logo_red.png" height="38px"></a>
+        <a href="{{ path('billiard_home_page') }}" class="nav-brand" role="button"><img src="/images/billiard_logo_blue.png" height="38px"></a>
         <div class="collapse navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="collapsibleNavbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="{{ path('game_new') }}" class="btn btn-info" role="button">Report a new game</a>
+                    <a href="{{ path('tabletennis_game_new') }}" class="btn btn-tabletennis" role="button">Report
+                        table tennis</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('game_index') }}">Games</a>
+                    <a href="{{ path('billiard_game_new') }}" class="btn btn-billiard" role="button">Report
+                        billiard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('rules') }}">Rules</a>
+                    <a class="nav-link" href="{{ path('tabletennis_rules') }}">Table tennis rules</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('billiard_rules') }}">Billiard rules</a>
                 </li>
             </ul>
-        </div>
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
             <ul class="navbar-nav ml-auto">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <li class="nav-item">

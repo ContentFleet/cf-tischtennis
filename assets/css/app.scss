@@ -1,19 +1,31 @@
 @import "~bootstrap/scss/bootstrap";
+$red: #e92351;
+$blue: #0B6DC0;
 
 * {
   font-family: "Arial";
 }
 
 body {
+  background-color: #35c00b;
+}
+
+.table-tennis {
+  background-color: #e92351;
+}
+
+.billiard {
   background-color: #0b6dc0;
 }
 
 .page-header {
   margin: 20px 0 20px;
+
   a {
     font-weight: bold;
     text-decoration: none;
     color: black;
+
     &:hover {
       text-decoration: none;
     }
@@ -33,12 +45,36 @@ body {
 .navbar {
   margin: auto;
   z-index: 1030;
+  justify-content: left;
+  border: 3px solid black;
+
   li {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     flex-direction: column;
     text-align: center;
     color: white;
+    padding: 5px 0 5px 0;
+  }
+}
+
+.navbar-toggler {
+  margin-right: 10px;
+}
+
+.nav-brand {
+  margin-right: 10px;
+}
+
+.billiard{
+  .navbar {
+    border: 3px solid $blue;
+  }
+}
+
+.table-tennis {
+  .navbar {
+    border: 3px solid $red;
   }
 }
 
@@ -50,20 +86,39 @@ body {
 
 .navbar-dark .navbar-nav .nav-link {
   color: white;
-  &:hover{
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
     color: #EB3963;
   }
 }
 
 .nav-brand {
   img:hover {
-      opacity: 0.7;
+    opacity: 0.7;
+  }
+
+  @include media-breakpoint-down(sm) {
+    border-width: 0.5px;
+    border-color: gray;
+    border-radius: 5px;
+    border-style: solid;
   }
 }
 
-.nav-brand {
+.nav-item {
   @include media-breakpoint-up(md) {
     padding-right: 10px;
+  }
+
+  a {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -76,6 +131,7 @@ body {
   margin: auto;
   width: 1280px;
   max-width: 100%;
+  min-height: 500px;
   -webkit-box-shadow: 0 0 10px #ccc;
   box-shadow: 0 0 10px #ccc;
   overflow: hidden;
@@ -100,13 +156,39 @@ body {
   margin: 20px 0 20px;
 }
 
-$mynewcolor: #e92351;
-.btn-info {
-  @include button-variant($mynewcolor, darken($mynewcolor, 7.5%), darken($mynewcolor, 10%), lighten($mynewcolor, 5%), lighten($mynewcolor, 10%), darken($mynewcolor, 20%));
+
+.btn-tabletennis {
+  @include button-variant($red, darken($red, 7.5%), darken($red, 10%), lighten($red, 5%), lighten($red, 10%), darken($red, 20%));
+}
+
+
+.btn-billiard {
+  @include button-variant($blue, darken($blue, 7.5%), darken($blue, 10%), lighten($blue, 5%), lighten($blue, 10%), darken($blue, 20%));
 }
 
 @include media-breakpoint-down(sm) {
   .h1 {
     font-size: 25px;
+  }
+}
+
+.win-loose-stats {
+  padding-bottom: 30px;
+  border-bottom: 1px solid;
+  @include media-breakpoint-up(md) {
+    height: 350px;
+  }
+  h4{
+    padding-top: 20px;
+    margin-bottom: 0;
+    @include media-breakpoint-up(md) {
+      height: 80px;
+    }
+  }
+}
+
+.login {
+  label {
+    width: 150px;
   }
 }

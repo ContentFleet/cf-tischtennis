@@ -1,0 +1,38 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Opponent</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for game in games %}
+            <tr>
+                <td>{{ game.id }}</td>
+                {% spaceless %}
+                    <td>
+                        {% for user in game.users %}
+                            {% if user.id == game.winnerUser.id %}
+                                <b>
+                            {% endif %}
+                            {{ user.getDisplayName() }}
+                            ({{ user.tableTennisStats.eloRating() }})
+                            {% if user.id == game.winnerUser.id %}
+                                </b>
+                            {% endif %}
+                            {% if(not loop.last) %}
+                                VS
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endspaceless %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

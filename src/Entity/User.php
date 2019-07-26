@@ -56,6 +56,16 @@ class User extends BaseUser
     private $wonGames;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TableTennisGame", mappedBy="winnerUser")
+     */
+    private $tableTennisWonGames;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BilliardGame", mappedBy="winnerUser")
+     */
+    private $billiardWonGames;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $eloRating = 1500;
@@ -75,12 +85,35 @@ class User extends BaseUser
      */
     private $eloHistories;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\TableTennisStats", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $tableTennisStats;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\TableTennisGame", mappedBy="users")
+     */
+    private $tableTennisGames;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\BilliardStats", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $billiardStats;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\BilliardGame", mappedBy="users")
+     */
+    private $billiardGames;
+
     public function __construct()
     {
         parent::__construct();
         $this->games = new ArrayCollection();
         $this->wonGames = new ArrayCollection();
         $this->eloHistories = new ArrayCollection();
+        $this->tableTennisGames = new ArrayCollection();
+        $this->billiardGames = new ArrayCollection();
+        $this->tableTennisWonGames = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,6 +291,137 @@ class User extends BaseUser
             // set the owning side to null (unless already changed)
             if ($eloHistory->getUser() === $this) {
                 $eloHistory->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTableTennisStats(): ?TableTennisStats
+    {
+        if ($this->tableTennisStats) {
+            return $this->tableTennisStats;
+        }
+
+        $this->setTableTennisStats(new TableTennisStats());
+        return $this->tableTennisStats;
+    }
+
+    public function setTableTennisStats(TableTennisStats $tableTennisStats): self
+    {
+        $this->tableTennisStats = $tableTennisStats;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $tableTennisStats->getUser()) {
+            $tableTennisStats->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TableTennisGame[]
+     */
+    public function getTableTennisGames(): Collection
+    {
+        return $this->tableTennisGames;
+    }
+
+    public function addTableTennisGame(TableTennisGame $tableTennisGame): self
+    {
+        if (!$this->tableTennisGames->contains($tableTennisGame)) {
+            $this->tableTennisGames[] = $tableTennisGame;
+            $tableTennisGame->addWinnerUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTableTennisGame(TableTennisGame $tableTennisGame): self
+    {
+        if ($this->tableTennisGames->contains($tableTennisGame)) {
+            $this->tableTennisGames->removeElement($tableTennisGame);
+            $tableTennisGame->removeWinnerUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getBilliardStats(): ?BilliardStats
+    {
+        if($this->billiardStats){
+            return $this->billiardStats;
+        }
+
+        $this->setBilliardStats(new BilliardStats());
+        return $this->billiardStats;
+    }
+
+    public function setBilliardStats(BilliardStats $billiardStats): self
+    {
+        $this->billiardStats = $billiardStats;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $billiardStats->getUser()) {
+            $billiardStats->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BilliardGame[]
+     */
+    public function getBilliardGames(): Collection
+    {
+        return $this->billiardGames;
+    }
+
+    public function addBilliardGame(BilliardGame $billiardGame): self
+    {
+        if (!$this->billiardGames->contains($billiardGame)) {
+            $this->billiardGames[] = $billiardGame;
+            $billiardGame->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilliardGame(BilliardGame $billiardGame): self
+    {
+        if ($this->billiardGames->contains($billiardGame)) {
+            $this->billiardGames->removeElement($billiardGame);
+            $billiardGame->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TableTennisGame[]
+     */
+    public function getTableTennisWonGames(): Collection
+    {
+        return $this->tableTennisWonGames;
+    }
+
+    public function addTableTennisWonGame(TableTennisGame $tableTennisWonGame): self
+    {
+        if (!$this->tableTennisWonGames->contains($tableTennisWonGame)) {
+            $this->tableTennisWonGames[] = $tableTennisWonGame;
+            $tableTennisWonGame->setWinnerUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTableTennisWonGame(TableTennisGame $tableTennisWonGame): self
+    {
+        if ($this->tableTennisWonGames->contains($tableTennisWonGame)) {
+            $this->tableTennisWonGames->removeElement($tableTennisWonGame);
+            // set the owning side to null (unless already changed)
+            if ($tableTennisWonGame->getWinnerUser() === $this) {
+                $tableTennisWonGame->setWinnerUser(null);
             }
         }
 

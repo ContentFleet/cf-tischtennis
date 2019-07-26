@@ -3,7 +3,6 @@
         <thead>
         <tr>
             <td>Id</td>
-            <td>Sets</td>
             <td>Opponent</td>
         </tr>
         </thead>
@@ -13,19 +12,12 @@
                 <td>{{ game.id }}</td>
                 {% spaceless %}
                     <td>
-                        {% for set in game.sets %}
-                            {{ set.score1 ~ ':' ~ set.score2 }}
-                        {% endfor %}
-                    </td>
-                {% endspaceless %}
-                {% spaceless %}
-                    <td>
                         {% for user in game.users %}
                             {% if user.id == game.winnerUser.id %}
                                 <b>
                             {% endif %}
                             {{ user.getDisplayName() }}
-                            ({{ user.eloRating() }})
+                            ({{ user.billiardStats.eloRating() }})
                             {% if user.id == game.winnerUser.id %}
                                 </b>
                             {% endif %}

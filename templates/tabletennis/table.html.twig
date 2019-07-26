@@ -1,0 +1,29 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Position</td>
+            <td>Name</td>
+            <td>Elo Rating</td>
+            <td>Won</td>
+            <td>Lost</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pos,userStat in usersTableTennis %}
+            {% set user = userStat.user %}
+            <tr>
+                <td>{{ pos+1 }}</td>
+                <td>{{ user.getDisplayName() }} <a href="{{ path('user_show', {'id': user.id}) }}"><span class="far fa-user"></span></a></td>
+                <td>{{ userStat.getEloRating() }}</td>
+                <td>{{ userStat.getNbWon() }}</td>
+                <td>{{ userStat.getNbLost() }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,31 @@
+{% extends 'tabletennis/base.html.twig' %}
+
+{% block title %}Game index{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="mt-5">Last table tennis games</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            {% include "tabletennis/games_tables.html.twig" %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="mt-5">Table tennis ranking</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <a href="{{ path('tabletennis_game_new') }}" class="btn btn-tabletennis" role="button">Report a new game</a>
+            {% include "tabletennis/table.html.twig" %}
+            <a href="{{ path('tabletennis_game_new') }}" class="btn btn-tabletennis" role="button">Report a new game</a>
+        </div>
+    </div>
+{% endblock %}

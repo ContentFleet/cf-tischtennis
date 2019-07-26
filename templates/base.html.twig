@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>CF Tischtennis</title>
+    <title>CF table tennis</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block stylesheets %}
@@ -18,11 +18,11 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 </head>
-<body>
-
-
+<body class="{{ bodyClass|default("") }}">
 <div class="content-wrapper">
+    {% block header %}
     {% include "components/header.html.twig" %}
+    {% endblock %}
 <div class="container">
     {% block body %}{% endblock %}
 </div>

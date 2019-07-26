@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Game;
-use App\Entity\GameSet;
+use App\Entity\GameInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -59,7 +59,7 @@ class GameType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Game::class,
+            'data_class' => GameInterface::class,
             'current_user_id' => null,
         ]);
     }

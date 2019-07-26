@@ -8,57 +8,92 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Enabled</th>
-                <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ user.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ user.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Compagny</th>
-                <td>{{ user.compagny }}</td>
-            </tr>
-            <tr>
-                <th>EloRating</th>
-                <td>{{ user.eloRating }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ user.id }}</td>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th>Enabled</th>
+            <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Firstname</th>
+            <td>{{ user.firstname }}</td>
+        </tr>
+        <tr>
+            <th>Lastname</th>
+            <td>{{ user.lastname }}</td>
+        </tr>
+        <tr>
+            <th>Compagny</th>
+            <td>{{ user.compagny }}</td>
+        </tr>
+        <tr>
+            <th>Table tennis Elo Rating</th>
+            <td>{{ user.tableTennisStats.eloRating }}</td>
+        </tr>
+        <tr>
+            <th>Billiard Elo Rating</th>
+            <td>{{ user.billiardStats.eloRating }}</td>
+        </tr>
         </tbody>
     </table>
 
     <a href="{{ path('user_index') }}" class="btn btn-info" role="button">back to list</a>
 
-
-    <hr/>
-    <h2>Elo History </h2>
-    <div class="row">
-        {% include '/user/stats_elo_history.html.twig' with {'eloHistory' : eloHistory} only %}
-    </div>
-    <hr/>
-    <h2>Stats Win / Loose </h2>
-    <div class="row">
-            {% for winLooseStat in winLooseStats %}
-            <div class="col-lg-4 text-center">
-                {% include '/user/stats_win_loose.html.twig' with {'winLooseStat' : winLooseStat} only %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3>Elo History </h3>
             </div>
-            {% endfor %}
+        </div>
+        <div class="row">
+            {% include '/user/stats_elo_history.html.twig' with {'eloHistory1' : tableTennisEloHistory,'eloHistory2' : billiardEloHistory, 'monthsEloHistory' : monthsEloHistory} only %}
+        </div>
+        {% if tableTennisEloHistory and tableTennisWinLooseStats %}
+
+            <div class="row">
+                <div class="col">
+                    <hr/>
+                    <h2>Table Tennis Stats</h2>
+                    <h3>Stats Win / Loose </h3>
+                </div>
+            </div>
+            <div class="row">
+                {% for winLooseStat in tableTennisWinLooseStats %}
+                    <div class="col-12 col-md-4 col-lg-3 text-center win-loose-stats">
+                        {% include '/user/stats_win_loose.html.twig' with {'winLooseStat' : winLooseStat, 'gamePrefix' : 'tt'} only %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+
+        {% if billiardEloHistory and billiardWinLooseStats %}
+
+            <div class="row">
+                <div class="col">
+                    <hr/>
+                    <h2>Billiards Stats</h2>
+                    <h3>Stats Win / Loose </h3>
+                </div>
+            </div>
+            <div class="row">
+                {% for winLooseStat in billiardWinLooseStats %}
+                    <div class="col-12 col-md-4 col-lg-3 text-center win-loose-stats">
+                        {% include '/user/stats_win_loose.html.twig' with {'winLooseStat' : winLooseStat, 'gamePrefix' : 'billiard'} only %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 
 

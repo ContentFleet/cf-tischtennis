@@ -4,8 +4,12 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\BilliardEloHistoryRepository;
+use App\Repository\BilliardGameRepository;
 use App\Repository\EloHistoryRepository;
 use App\Repository\GameRepository;
+use App\Repository\TableTennisEloHistoryRepository;
+use App\Repository\TableTennisGameRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,16 +57,38 @@ class UserController extends AbstractController
      * @Route("/{id}", name="user_show", methods="GET")
      * @param User $user
      * @param UserRepository $userRepository
+     * @param TableTennisGameRepository $tableTennisGameRepository
+     * @param TableTennisEloHistoryRepository $tableTennisEloHistoryRepository
+     * @param BilliardGameRepository $billiardGameRepository
+     * @param BilliardEloHistoryRepository $billiardEloHistoryRepository
      * @return Response
      */
-    public function show(User $user, UserRepository $userRepository, GameRepository $gameRepository, EloHistoryRepository $eloHistoryRepository): Response
+    public function show(
+        User $user,
+        UserRepository $userRepository,
+        TableTennisGameRepository $tableTennisGameRepository,
+        TableTennisEloHistoryRepository $tableTennisEloHistoryRepository,
+        BilliardGameRepository $billiardGameRepository,
+        BilliardEloHistoryRepository $billiardEloHistoryRepository
+    ): Response
     {
-        $winLooseStats = $gameRepository->getStatsAgainstPlayers($user->getId());
-        $eloHistory = $eloHistoryRepository->getEloHistory($user->getId());
+        $tableTennisWinLooseStats = $tableTennisGameRepository->getStatsAgainstPlayers($user->getId());
+        $billiardWinLooseStats = $billiardGameRepository->getStatsAgainstPlayers($user->getId());
+        $monthsEloHistory = [];
+        $dateEloHistory = new \DateTime("- 5 months");
+        for ($i = 1; $i <= 6; $i++) {
+            $monthsEloHistory[] = $dateEloHistory->format("Y-m");
+            $dateEloHistory->add(new \DateInterval("P1M"));
+        }
+        $tableTennisEloHistory = $tableTennisEloHistoryRepository->getEloHistory($user->getId(), $monthsEloHistory);
+        $billiardEloHistory = $billiardEloHistoryRepository->getEloHistory($user->getId(), $monthsEloHistory);
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'winLooseStats' => $winLooseStats,
-            'eloHistory' => $eloHistory
+            'monthsEloHistory' => $monthsEloHistory,
+            'tableTennisWinLooseStats' => $tableTennisWinLooseStats,
+            'tableTennisEloHistory' => $tableTennisEloHistory,
+            'billiardWinLooseStats' => $billiardWinLooseStats,
+            'billiardEloHistory' => $billiardEloHistory
         ]);
     }
 

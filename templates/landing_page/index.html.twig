@@ -2,28 +2,24 @@
 
 {% block body %}
 <div class="row">
-    <div class="col-lg-12">
-        <h2 class="h2">Classement</h2>
-    </div>
+    <h2>Top 10 Table tennis</h2>
     <div class="col-lg-12 text-center">
-        {% include "/user/table.html.twig" %}
-        <a href="{{ path('game_new') }}" class="btn btn-info" role="button">Report a new game</a>
+        <a href="{{ path('tabletennis_game_new') }}" class="btn btn-tabletennis" role="button">Report a new table tennis game</a>
+    </div>
+    {% include "tabletennis/table.html.twig" %}
+    <div class="col-lg-12 text-center">
+        <a href="{{ path('tabletennis_home_page') }}" class="btn btn-tabletennis" role="button">Ranking table tennis</a>
     </div>
 </div>
-
-{#<div class="row">#}
-    {#<div class="col-lg-12">#}
-        {#<div class="container-fluid full-width-image"></div>#}
-    {#</div>#}
-{#</div>#}
-
 <div class="row">
-    <div class="col-lg-12">
-        <h2 class="h2">Last games</h2>
-    </div>
+    <h2>Top 10 Billiard</h2>
     <div class="col-lg-12 text-center">
-        {% include "/game/table.html.twig" %}
-        <a href="{{ path('game_new') }}" class="btn btn-info" role="button">Report a new game</a>
+        <a href="{{ path('billiard_game_new') }}" class="btn btn-billiard" role="button">Report a new billiard game</a>
+    </div>
+    {% include "billiard/table.html.twig" with {'users' : usersBilliard} %}
+    <div class="col-lg-12 text-center">
+        <a href="{{ path('billiard_home_page') }}" class="btn btn-billiard" role="button">Ranking billiard</a>
     </div>
 </div>
+
 {% endblock %}
