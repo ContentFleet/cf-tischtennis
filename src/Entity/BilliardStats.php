@@ -78,7 +78,7 @@ class BilliardStats
 
     public function getNbWon(): ?int
     {
-        return $this->nbWon;
+        return $this->nbWon ?: 0;
     }
 
     public function setNbWon(int $nbWon): self
@@ -90,7 +90,7 @@ class BilliardStats
 
     public function getNbLost(): ?int
     {
-        return $this->nbLost;
+        return $this->nbLost ?: 0;
     }
 
     public function setNbLost(int $nbLost): self
