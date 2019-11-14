@@ -121,7 +121,7 @@ class BilliardController extends AbstractController
                 $em->flush();
 
                 $ranking = $statsRepository->getUserRanking(150);
-                $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking);
+                $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking, "\n----------------- \n *#BILLIARD* \n----------------- \n");
             }
 
             return $this->redirectToRoute('billiard_home_page');

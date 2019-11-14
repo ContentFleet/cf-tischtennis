@@ -24,16 +24,17 @@ class Slack
         $this->giphy = $giphy;
     }
 
-    public function sendVictoryMessage(User $winner, User $looser,array $rankingUsers )
+    public function sendVictoryMessage(User $winner, User $looser,array $rankingUsers, $text = "" )
     {
-        $text = "*".$winner->getDisplayName()."* won against " . $looser->getDisplayName() . "\n";
+        $text .= "*".$winner->getDisplayName()."* won against " . $looser->getDisplayName() . "\n";
 
         $text .="\n*Ranking*\n";
         $text .= "#         Won             Lost                Rating               Name\n";
         foreach($rankingUsers as $key => $userStats){
             $user = $userStats->getUser();
 
-            $text .= $key+1 . "         ";
+            $pos = $num_padded = sprintf("%02d", $key+1);
+            $text .= $pos . "         ";
 
             /** @var User $user */
             $nbWon = $userStats->getNbWon();

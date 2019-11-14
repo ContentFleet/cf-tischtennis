@@ -123,7 +123,7 @@ class TableTennisController extends AbstractController
                 $em->flush();
 
                 $ranking = $statsRepository->getUserRanking(150);
-                $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking);
+                $slackService->sendVictoryMessage($winnerUser,$looserUser,$ranking,"\n----------------- \n *#TABLETENNIS* \n----------------- \n");
             }
 
             return $this->redirectToRoute('tabletennis_home_page');
